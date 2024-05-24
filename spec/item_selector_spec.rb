@@ -68,4 +68,20 @@ RSpec.describe ItemSelector do
       expect(item_selector.send(:item_sum, 1, 2)).to eq(1700)
     end
   end
+
+  describe '#set_starting_indexes' do
+    it "should set i1_index and final_i1_index to the cheapest item's index" do
+      item_selector = ItemSelector.new(prices, 2300)
+      item_selector.send(:set_starting_indexes)
+      expect(item_selector.i1_index).to eq(0)
+      expect(item_selector.final_i1_index).to eq(0)
+    end
+
+    it "should set i2_index and final_i2_index to the most expensive possible item's index" do
+      item_selector = ItemSelector.new(prices, 2300)
+      item_selector.send(:set_starting_indexes)
+      expect(item_selector.i2_index).to eq(3)
+      expect(item_selector.final_i2_index).to eq(3)
+    end
+  end
 end
