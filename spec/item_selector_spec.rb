@@ -19,4 +19,30 @@ RSpec.describe ItemSelector do
       expect(item_selector.items).to be_nil
     end
   end
+
+  describe '#select_items' do
+    context 'when no 2 items are less than the gift card balance' do
+      it 'should not select any items' do
+        item_selector = ItemSelector.new(prices, 1100)
+        item_selector.select_items
+        expect(item_selector.items).to be_nil
+      end
+    end
+
+    context 'when 2 items exactly sum to the gift card balance' do
+      it 'should select the optimal 2 items' do
+        item_selector = ItemSelector.new(prices, 2500)
+        item_selector.select_items
+        expect(item_selector.items).to match(["Candy Bar", "Earmuffs"])
+      end
+    end
+
+    context 'when 2 items do not exactly sum to the gift card balance' do
+      it 'should select the optimal 2 items closest to the gift card balance' do
+        item_selector = ItemSelector.new(prices, 2300)
+        item_selector.select_items
+        expect(item_selector.items).to match(["Paperback Book", "Headphones"])
+      end
+    end
+  end
 end
