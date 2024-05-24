@@ -21,6 +21,14 @@ class ItemSelector
     @items = [@prices.keys[@final_i1_index], @prices.keys[@final_i2_index]]
   end
 
+  def readable_result
+    if @items.nil?
+      "Not possible"
+    else
+      "#{@items.first} #{@prices[@items.first]}, #{@items.last} #{@prices[@items.last]}"
+    end
+  end
+
   private
 
   def no_possible_items?

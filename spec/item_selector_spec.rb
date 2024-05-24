@@ -99,4 +99,22 @@ RSpec.describe ItemSelector do
       expect(item_selector.final_i2_index).to eq(4)
     end
   end
+
+  describe '#readable_result' do
+    context 'when no items are selected' do
+      it "should return 'Not possible'" do
+        item_selector = ItemSelector.new(prices, 1100)
+        item_selector.select_items
+        expect(item_selector.readable_result).to eq('Not possible')
+      end
+    end
+
+    context 'when items are selected' do
+      it 'should return formatted string output of selected items and prices' do
+        item_selector = ItemSelector.new(prices, 1500)
+        item_selector.select_items
+        expect(item_selector.readable_result).to eq('Candy Bar 500, Detergent 1000')
+      end
+    end
+  end
 end
