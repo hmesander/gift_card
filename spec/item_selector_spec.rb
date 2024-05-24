@@ -84,4 +84,19 @@ RSpec.describe ItemSelector do
       expect(item_selector.final_i2_index).to eq(3)
     end
   end
+
+  describe '#find_indexes_of_optimal_pair' do
+    it 'should set final_i1_index and final_i2_index for the correct two items' do
+      item_selector = ItemSelector.new(prices, 3000)
+      item_selector.send(:set_starting_indexes)
+
+      expect(item_selector.final_i1_index).to eq(0)
+      expect(item_selector.final_i2_index).to eq(4)
+
+      item_selector.send(:find_indexes_of_optimal_pair)
+
+      expect(item_selector.final_i1_index).to eq(2)
+      expect(item_selector.final_i2_index).to eq(4)
+    end
+  end
 end

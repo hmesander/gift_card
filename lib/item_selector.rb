@@ -16,21 +16,7 @@ class ItemSelector
   def select_items
     return if no_possible_items?
     set_starting_indexes
-
-    while @i1_index < @i2_index
-      new_delta = @balance - item_sum(@i1_index, @i2_index)
-
-      if new_delta <= @delta && new_delta >= 0
-        @delta = new_delta
-        @final_i1_index, @final_i2_index = @i1_index, @i2_index
-        @i1_index += 1
-        break if @delta == 0
-      elsif item_sum(@i1_index, @i2_index) < @balance
-        @i1_index += 1
-      else
-        @i2_index -= 1
-      end
-    end
+    find_indexes_of_optimal_pair
 
     @items = [@prices.keys[@final_i1_index], @prices.keys[@final_i2_index]]
   end
@@ -58,5 +44,22 @@ class ItemSelector
     end
 
     @final_i2_index = @i2_index
+  end
+
+  def find_indexes_of_optimal_pair
+    while @i1_index < @i2_index
+      new_delta = @balance - item_sum(@i1_index, @i2_index)
+
+      if new_delta <= @delta && new_delta >= 0
+        @delta = new_delta
+        @final_i1_index, @final_i2_index = @i1_index, @i2_index
+        @i1_index += 1
+        break if @delta == 0
+      elsif item_sum(@i1_index, @i2_index) < @balance
+        @i1_index += 1
+      else
+        @i2_index -= 1
+      end
+    end
   end
 end
