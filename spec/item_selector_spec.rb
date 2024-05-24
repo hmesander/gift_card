@@ -45,4 +45,27 @@ RSpec.describe ItemSelector do
       end
     end
   end
+
+  describe '#no_possible_items?' do
+    context 'when the two cheapest items are more than the gift card balance' do
+      it 'should return true' do
+        item_selector = ItemSelector.new(prices, 1100)
+        expect(item_selector.send(:no_possible_items?)).to eq(true)
+      end
+    end
+
+    context 'when the two cheapest items are less than the gift card balance' do
+      it 'should return false' do
+        item_selector = ItemSelector.new(prices, 2000)
+        expect(item_selector.send(:no_possible_items?)).to eq(false)
+      end
+    end
+  end
+
+  describe '#item_sum' do
+    it "should sum items' prices given their indexes" do
+      item_selector = ItemSelector.new(prices, 2300)
+      expect(item_selector.send(:item_sum, 1, 2)).to eq(1700)
+    end
+  end
 end
